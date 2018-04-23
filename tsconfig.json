@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es5",
+    "module": "esnext",
+    "jsx": "react",
+    "jsxFactory": "h",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "lib": [
+      "es2015",
+      "dom",
+      "webworker"
+    ]
+  }
+}
