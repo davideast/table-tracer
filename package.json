@@ -7,8 +7,17 @@
     "build:clean": "rm -rf dist",
     "build:client": "yarn build:clean && webpack",
     "build:server": "tsc -p tsconfig.server.json",
+    "build:noworker": "yarn build:clean && webpack --config webpack.noworker.js",
+    "build:noworker:nossr": "yarn build:clean && webpack --config webpack.noworker.nossr.js",
     "build": "yarn build:client && yarn build:server",
-    "start:dev": "yarn build && node functions/index.js DEV"
+    "serve": "firebase serve --only functions,hosting",
+    "start:dev": "yarn build && node functions/index.js DEV",
+    "start:worker": "yarn build && yarn serve",
+    "start:noworker": "yarn build:noworker && yarn serve",
+    "start:noworker:nossr": "yarn build:noworker:nossr && yarn serve",
+    "deploy:worker": "yarn build && firebase use default && firebase deploy",
+    "deploy:noworker": "yarn build:noworker && firebase use noworker && firebase deploy",
+    "deploy:worker:nossr": "yarn build:noworker:nossr && firebase use noworker:nossr && firebase deploy"
   },
   "dependencies": {
     "@types/node": "^9.6.6",
@@ -21,6 +30,7 @@
     "grpc": "^1.10.1",
     "mini-css-extract-plugin": "^0.4.0",
     "node-noop": "^1.0.0",
+    "noop-webpack-plugin": "^1.0.1",
     "preact": "^8.2.7",
     "preact-render-to-string": "^3.7.0",
     "preact-router": "^2.6.0",

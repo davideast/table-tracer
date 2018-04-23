@@ -11,6 +11,9 @@ self.addEventListener('message', event => {
   switch(event.data.cmd) {
     case 'initializeApp':
       app = firebase.initializeApp(event.data.data);
+      const firestore = firebase.firestore();
+      const settings = { timestampsInSnapshots: true };
+      firestore.settings(settings);
       break;
     case 'firestore.col.add': {
       const { data, path } = event.data.data;
@@ -35,7 +38,10 @@ self.addEventListener('message', event => {
         const empty = snap.empty;
         self.postMessage({
           name: `firestore.col.${path}.onSnapshot`,
-          response: { docs, size, empty }
+          response: { 
+            data: { docs, size, empty }, 
+            type: 'QuerySnapshot',
+          }
         });
       });
       break;

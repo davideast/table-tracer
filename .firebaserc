@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "ticket-fire"
+    "default": "table-tracer",
+    "noworker": "table-tracer-noworker",
+    "noworker:ssr": "table-tracer-noworker-nossr"
   }
 }

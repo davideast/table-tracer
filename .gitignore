@@ -3,3 +3,6 @@ dist
 
 functions/*
 !functions/package.json
+
+yarn-error.log
+firebase-debug.log

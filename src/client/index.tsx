@@ -1,6 +1,7 @@
 import { h, render, Component } from 'preact';
 import { HomePage } from '../app';
-import { FireWorkerApp, fireworker } from './worker';
+import { firebase, FireWorkerApp } from './worker';
+import 'noop-webpack-plugin';
 
 class App extends Component<any, { restaurants: any[] }> {
   app: FireWorkerApp;
@@ -10,7 +11,7 @@ class App extends Component<any, { restaurants: any[] }> {
   }
 
   componentDidMount() {
-    this.app = fireworker().initializeApp({
+    this.app = firebase.initializeApp({
       apiKey: "AIzaSyC1pXdWIiJZRcJUYtoIi-MmrRdnTcUISgk",
       authDomain: "ticket-fire.firebaseapp.com",
       databaseURL: "https://ticket-fire.firebaseio.com",
@@ -20,7 +21,7 @@ class App extends Component<any, { restaurants: any[] }> {
     });
     this.app.firestore().collection('restaurants').onSnapshot(snap => {
       const restaurants = snap.docs;
-      this.setState({ ...this.state, restaurants });
+      this.setState({ restaurants });
     });
   }
 
@@ -31,4 +32,4 @@ class App extends Component<any, { restaurants: any[] }> {
   }
 }
 
-render(<App />, document.querySelector('#root'));
+render(<App />, document.body, document.querySelector('#root'));

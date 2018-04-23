@@ -1,9 +1,9 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { IgnorePlugin } = require('webpack');
+const { NormalModuleReplacementPlugin } = require('webpack');
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   // devtool: "inline-source-map",
   entry: "./src/client/index.tsx",
   output: {
@@ -33,11 +33,13 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: 'src/client/images/**/*', to: './images', flatten: true },
-      { from: 'src/index.html', to: '../functions' },
+      'src/index.html',
       'src/client/style.css',
       'src/client/worker/worker.js',
       'node_modules/firebase/firebase-app.js',
       'node_modules/firebase/firebase-firestore.js',
-    ])
+    ]),
+    new NormalModuleReplacementPlugin(/\.\/worker$/, '@firebase/app'),
+    new NormalModuleReplacementPlugin(/noop-webpack-plugin/, '@firebase/firestore'),
   ]
 };

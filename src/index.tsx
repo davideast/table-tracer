@@ -4,6 +4,7 @@ import { h } from 'preact';
 import { HomePage } from './app/pages/Home';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as functions from 'firebase-functions';
 import * as firebase from 'firebase/app';
 import 'firebase/firestore';
 
@@ -29,7 +30,7 @@ const col = firebaseApp.firestore().collection('restaurants');
 
 router.get('/', (req, res) => {
   col.get().then(snap => {
-    const restaurants = snap.docs.map(d => ({ id: d.id, data: d.data() }));
+    const restaurants = snap.docs.map(d => ({ id: d.id, data: () => d.data() }));
     const html = render(<HomePage restaurants={restaurants} />)
     const finalHtml = indexHtml.replace('<!-- ::APP:: -->', html);
     res.send(finalHtml);
@@ -38,4 +39,6 @@ router.get('/', (req, res) => {
 
 if(isDev) {
   router.listen(port, () => console.log(`Listening on ${port}...`));
+} else {
+  exports.ssr = functions.https.onRequest(router); 
 }

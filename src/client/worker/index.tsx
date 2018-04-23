@@ -1,6 +1,3 @@
-import { FirebaseNamespace, FirebaseApp } from '@firebase/app-types';
-import { QuerySnapshot } from '@firebase/firestore-types';
-
 export interface PostMessage {
   cmd: string;
   data: any;
@@ -29,7 +26,15 @@ export class FireWorker {
   constructor() { 
     this.worker = new Worker('./worker.js');
     this.worker.addEventListener('message', event => {
-      this.listeners[event.data.name](event.data.response);
+      let data = event.data.response.data;
+      if(event.data.response.type === 'QuerySnapshot') {
+        data.docs = data.docs.map(d => {
+          const _data = d.data;
+          d.data = () => _data
+          return d;
+        });
+      }
+      this.listeners[event.data.name](data);
     });
   }
 
@@ -85,6 +90,4 @@ export class FireWorkerFirestoreCol {
   }
 }
 
-export const fireworker = () => {
-  return new FireWorker();
-};
+export const firebase = new FireWorker();

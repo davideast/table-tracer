@@ -9,8 +9,12 @@
     "logs": "firebase functions:log"
   },
   "dependencies": {
+    "express": "^4.16.3",
+    "firebase": "^4.13.1",
     "firebase-admin": "~5.8.1",
-    "firebase-functions": "^0.8.1"
+    "firebase-functions": "^0.8.1",
+    "preact": "^8.2.7",
+    "preact-render-to-string": "^3.7.0"
   },
   "private": true
 }
