@@ -3,11 +3,14 @@ import { HomePage } from '../app';
 import { firebase, FireWorkerApp } from './worker';
 import 'noop-webpack-plugin';
 
-class App extends Component<any, { restaurants: any[] }> {
+export interface AppState { restaurants: any[] }
+
+class App extends Component<AppState, AppState> {
   app: FireWorkerApp;
-  constructor() {
+  constructor(props) {
     super();
-    this.state = { restaurants: [] };
+
+    this.state = { restaurants: props.restaurants };
   }
 
   componentDidMount() {
@@ -20,7 +23,7 @@ class App extends Component<any, { restaurants: any[] }> {
       messagingSenderId: "1090774042344"
     });
     this.app.firestore().collection('restaurants').onSnapshot(snap => {
-      const restaurants = snap.docs;
+      const restaurants = snap.docs.map(d => ({ id: d.id, ...d.data() }));
       this.setState({ restaurants });
     });
   }
@@ -32,4 +35,16 @@ class App extends Component<any, { restaurants: any[] }> {
   }
 }
 
-render(<App />, document.body, document.querySelector('#root'));
+if (window['__data__']) {
+  const data = window['__data__'];
+  render(
+    <App restaurants={data} />, 
+    document.body, 
+    document.querySelector('#root')
+  );
+} else {
+  render(
+    <App restaurants={[]} />,
+    document.querySelector('#root')
+  );
+}

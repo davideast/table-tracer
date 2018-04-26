@@ -2,6 +2,6 @@
   "projects": {
     "default": "table-tracer",
     "noworker": "table-tracer-noworker",
-    "noworker:ssr": "table-tracer-noworker-nossr"
+    "noworker:nossr": "table-tracer-noworker-nossr"
   }
 }

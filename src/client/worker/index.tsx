@@ -9,7 +9,7 @@ interface ListenerHash {
 
 interface WorkerQueryDocumentSnapshot {
   id: string;
-  data: string;
+  data: () => any;
   exists: boolean;
   metadata: { fromCache: boolean; hasPendingWrites: boolean };
 }

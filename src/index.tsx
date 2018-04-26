@@ -30,9 +30,13 @@ const col = firebaseApp.firestore().collection('restaurants');
 
 router.get('/', (req, res) => {
   col.get().then(snap => {
-    const restaurants = snap.docs.map(d => ({ id: d.id, data: () => d.data() }));
+    const restaurants = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     const html = render(<HomePage restaurants={restaurants} />)
-    const finalHtml = indexHtml.replace('<!-- ::APP:: -->', html);
+    const dataHtml = indexHtml.replace('/** window.__data__ = ::DATA:: ;**/', 
+      `window.__data__ = ${JSON.stringify(restaurants)};`);
+      console.log(dataHtml);
+    const finalHtml = dataHtml.replace('<!-- ::APP:: -->', html);
+    res.set('Cache-Control', 'public, max-age=600, s-maxage=1200');
     res.send(finalHtml);
   });
 });

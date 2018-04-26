@@ -17,7 +17,7 @@
     "start:noworker:nossr": "yarn build:noworker:nossr && yarn serve",
     "deploy:worker": "yarn build && firebase use default && firebase deploy",
     "deploy:noworker": "yarn build:noworker && firebase use noworker && firebase deploy",
-    "deploy:worker:nossr": "yarn build:noworker:nossr && firebase use noworker:nossr && firebase deploy"
+    "deploy:noworker:nossr": "yarn build:noworker:nossr && firebase use noworker:nossr && firebase deploy"
   },
   "dependencies": {
     "@types/node": "^9.6.6",
