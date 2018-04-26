@@ -64,6 +64,7 @@ export class FireWorkerFirestore {
   collection(path: string) {
     return new FireWorkerFirestoreCol(this.worker, path);
   }
+  settings(config: any) { }
 }
 
 export class FireWorkerFirestoreCol {
