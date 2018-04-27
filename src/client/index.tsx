@@ -23,7 +23,17 @@ class App extends Component<AppState, AppState> {
       messagingSenderId: "1090774042344"
     });
     this.app.firestore().collection('restaurants').onSnapshot(snap => {
-      const restaurants = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      const updatedRestaurants = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      let restaurants = [];
+      if(this.state.restaurants.length === 0) { 
+        restaurants = updatedRestaurants;
+      } else {
+        restaurants = this.state.restaurants.map((r, i) => {
+          const updated = updatedRestaurants[i];
+          updated.previousOccupants = r.occupants;
+          return updated;
+        });
+      }
       this.setState({ restaurants });
     });
   }

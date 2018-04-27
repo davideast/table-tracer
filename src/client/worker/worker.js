@@ -1,7 +1,7 @@
-importScripts('/firebase-app.js');
-importScripts('/firebase-firestore.js');
+importScripts('/firebase-bundle.js');
 
 let app = null;
+let firebase = firebaseBundle.firebase;
 
 function createCollection(path) {
   return app.firestore().collection(path)

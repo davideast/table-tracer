@@ -26,7 +26,10 @@ const firebaseApp = firebase.initializeApp({
   storageBucket: "ticket-fire.appspot.com",
   messagingSenderId: "1090774042344"
 });
-const col = firebaseApp.firestore().collection('restaurants');
+const firestore = firebaseApp.firestore();
+const settings = { timestampsInSnapshots: true };
+firestore.settings(settings);
+const col = firestore.collection('restaurants');
 
 router.get('/', (req, res) => {
   col.get().then(snap => {

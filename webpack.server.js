@@ -15,8 +15,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'functions'),
     filename: 'bundle.js',
-    library: 'bundle',
-    libraryTarget: 'commonjs2'
+    library: 'firebase'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js']
